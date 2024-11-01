@@ -27,9 +27,9 @@ public class AuthService {
         //validate request
         validationService.validate(request);
 
-        //check in db if name already registered
+        //check in database if name already registered
         User user = userRepository.findById(request.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username already registered"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong"));
 
         //validate password
         if (BCrypt.checkpw(request.getPassword(), user.getPassword())) {
@@ -45,7 +45,7 @@ public class AuthService {
 
         } else {
             //login failed
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username already registered");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong");
         }
 
     }
